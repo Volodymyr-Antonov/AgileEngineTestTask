@@ -1,0 +1,15 @@
+﻿CREATE PROCEDURE [dbo].[GetCity]
+	@ErrorMessage NVARCHAR(4000) = NULL OUTPUT
+AS
+SET XACT_ABORT, NOCOUNT ON
+
+BEGIN TRY
+	SELECT 
+		 c.CityId
+        ,c.CityName
+	FROM dbo.City c
+END TRY
+BEGIN CATCH
+	IF @@TRANCOUNT > 0 ROLLBACK
+	EXEC dbo.LogError @ErrorMessage = @ErrorMessage OUTPUT
+END CATCH
